@@ -12,10 +12,15 @@ age INTEGER
        '''        )
 #cursor.execute('CREATE INDEX idx_email ON Users( email)')
 cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('newuser','newuser@exanpli.com','20'))
+cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('ODIN','ODIN@exanpli.com','300'))
 # Выбираем всех пользователей
-cursor.execute('SELECT * FROM Users')
+#cursor.execute('SELECT * FROM Users')
 users = cursor.fetchall()
+cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+results = cursor.fetchall()
 
+for row in results:
+    print(row)
 # Выводим результаты
 for user in users:
     print(user)
