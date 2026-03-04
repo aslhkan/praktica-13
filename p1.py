@@ -12,6 +12,7 @@ age INTEGER
        '''        )
 #cursor.execute('CREATE INDEX idx_email ON Users( email)')
 cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('newuser','newuser@exanpli.com','20'))
+cursor.execute('UPDATE Users SET  age=? WHERE username=? ' ,(29,'newuser'))
 connection.commit()
 connection.close()
 
