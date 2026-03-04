@@ -16,9 +16,14 @@ cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('ODIN','OD
 # Выбираем всех пользователей
 #cursor.execute('SELECT * FROM Users')
 users = cursor.fetchall()
-cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+#cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
+#results = cursor.fetchall()
+# Получаем средний возраст пользователей для возраста
+cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
 results = cursor.fetchall()
 
+for row in results:
+    print(row)
 for row in results:
     print(row)
 # Выводим результаты
