@@ -10,7 +10,7 @@ email TEXT NOT NULL,
 age INTEGER
 )
        '''        )
-
+cursor.execute('CREATE INDEX idx_email ON Users( email)')
 connection.commit()
 connection.close()
 
