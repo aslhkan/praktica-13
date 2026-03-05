@@ -29,7 +29,19 @@ results = cursor.fetchall()
 # Выбираем и сортируем пользователей по возрасту по убыванию
 cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
 results = cursor.fetchall()
+# Выбираем и сортируем пользователей
 
+cursor.execute(''' 
+SELECT username, age, AVG(age) 
+FROM Users 
+GROUP BY age 
+HAVING AVG(age) > ? 
+ORDER BY age DESC 
+''', (30,))
+results = cursor.fetchall()
+
+for row in results:
+    print(row)
 for row in results:
     print(row)
 #for row in results:
