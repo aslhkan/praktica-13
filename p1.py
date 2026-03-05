@@ -26,7 +26,24 @@ cursor.execute('SELECT COUNT(*) FROM Users')
 total_users = cursor.fetchone()[0]
 cursor.execute('SELECT SUM(age) FROM Users')
 total_age = cursor.fetchone()[0]
+# Выбираем всех пользователей
+cursor.execute('SELECT * FROM Users')
+users = cursor.fetchall()
 
+# Преобразуем результаты в список словарей
+users_list = []
+for user in users:
+    user_dict = {
+    'id': user[0],
+    'username': user[1],
+    'email': user[2],
+    'age': user[3]
+    }
+    users_list.append(user_dict)
+
+# Выводим результаты
+for user in users_list:
+    print(user)
 print('Общая сумма возрастов пользователей: ', total_age)
 
 print('Общее количество пользователей:', total_users)
@@ -50,44 +67,3 @@ cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
 results = cursor.fetchall()
 # Выбираем и сортируем пользователей
 
-cursor.execute(''' 
-SELECT username, age, AVG(age) 
-FROM Users 
-GROUP BY age 
-HAVING AVG(age) > ? 
-ORDER BY age DESC 
-''', (30,))
-results = cursor.fetchall()
-
-for row in results:
-    print(row)
-for row in results:
-    print(row)
-#for row in results:
-    #print(row)
-#for row in filtered_results:
-   # print(row)
-#for row in results:
-  #  print(row)
-#for row in results:
-  #  print(row)
-# Выводим результаты#for user in users:
-    print(users)
-#cursor.execute('UPDATE Users SET  age=? WHERE username=? ' ,(29,'newuser'))
-#cursor.execute('DELETE  FROM Users   WHERE username=?',('newuser',))
-cursor.execute('SELECT * FROM Users')
-users = cursor.fetchall()
-
-cursor.execute('SELECT * FROM Users')
-first_user = cursor.fetchone()
-print(first_user)
-
-# Выбираем первых 5 пользователей
-cursor.execute('SELECT * FROM Users')
-first_five_users = cursor.fetchmany(5)
-print(first_five_users)
-
-# Выбираем всех пользователей
-cursor.execute('SELECT * FROM Users')
-all_users = cursor.fetchall()
-print(all_users)
