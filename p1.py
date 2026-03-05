@@ -33,7 +33,10 @@ print('Общее количество пользователей:', total_users
 # Выбираем и сортируем пользователей по возрасту по убыванию
 cursor.execute('SELECT AVG(age) FROM Users')
 average_age = cursor.fetchone()[0]
+cursor.execute('SELECT MIN(age) FROM Users')
+min_age = cursor.fetchone()[0]
 
+print('Минимальный возраст среди пользователей: ', min_age)
 print('Средний возраст пользователей: ', average_age)
 cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
 results = cursor.fetchall()
