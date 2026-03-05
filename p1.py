@@ -24,6 +24,10 @@ results = cursor.fetchall()
 cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
 cursor.execute('SELECT COUNT(*) FROM Users')
 total_users = cursor.fetchone()[0]
+cursor.execute('SELECT SUM(age) FROM Users')
+total_age = cursor.fetchone()[0]
+
+print('Общая сумма возрастов пользователей: ', total_age)
 
 print('Общее количество пользователей:', total_users)
 # Выбираем и сортируем пользователей по возрасту по убыванию
