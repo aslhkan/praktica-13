@@ -22,18 +22,29 @@ users = cursor.fetchall()
 cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
 results = cursor.fetchall()
 cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
-filtered_results = cursor.fetchall()
-for row in filtered_results:
-    print(row)
+
+# Выбираем и сортируем пользователей по возрасту по убыванию
+cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
+results = cursor.fetchall()
+# Выбираем и сортируем пользователей по возрасту по убыванию
+cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
+results = cursor.fetchall()
+
 for row in results:
     print(row)
-for row in results:
-    print(row)
-# Выводим результаты
-for user in users:
-    print(user)
+#for row in results:
+    #print(row)
+#for row in filtered_results:
+   # print(row)
+#for row in results:
+  #  print(row)
+#for row in results:
+  #  print(row)
+# Выводим результаты#for user in users:
+    print(users)
 #cursor.execute('UPDATE Users SET  age=? WHERE username=? ' ,(29,'newuser'))
 #cursor.execute('DELETE  FROM Users   WHERE username=?',('newuser',))
+
 connection.commit()
 connection.close()
 
