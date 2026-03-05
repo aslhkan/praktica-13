@@ -78,10 +78,16 @@ for row in results:
 cursor.execute('SELECT * FROM Users')
 users = cursor.fetchall()
 
-# Выводим результаты
-for user in users:
-    print(user)
-connection.commit()
-connection.close()
+cursor.execute('SELECT * FROM Users')
+first_user = cursor.fetchone()
+print(first_user)
 
+# Выбираем первых 5 пользователей
+cursor.execute('SELECT * FROM Users')
+first_five_users = cursor.fetchmany(5)
+print(first_five_users)
 
+# Выбираем всех пользователей
+cursor.execute('SELECT * FROM Users')
+all_users = cursor.fetchall()
+print(all_users)
