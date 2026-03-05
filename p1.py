@@ -75,11 +75,11 @@ for row in results:
     print(users)
 #cursor.execute('UPDATE Users SET  age=? WHERE username=? ' ,(29,'newuser'))
 #cursor.execute('DELETE  FROM Users   WHERE username=?',('newuser',))
-cursor.execute('''SELECT username, age FROM Users WHERE age = (SELECT MAX(age) FROM Users) ''')
-oldest_users = cursor.fetchall()
+cursor.execute('SELECT * FROM Users')
+users = cursor.fetchall()
 
 # Выводим результаты
-for user in oldest_users:
+for user in users:
     print(user)
 connection.commit()
 connection.close()
