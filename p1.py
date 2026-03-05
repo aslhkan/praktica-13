@@ -21,7 +21,10 @@ users = cursor.fetchall()
 # Получаем средний возраст пользователей для возраста
 cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
 results = cursor.fetchall()
-
+cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
+filtered_results = cursor.fetchall()
+for row in filtered_results:
+    print(row)
 for row in results:
     print(row)
 for row in results:
