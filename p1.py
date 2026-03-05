@@ -13,57 +13,20 @@ age INTEGER
 #cursor.execute('CREATE INDEX idx_email ON Users( email)')
 cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('newuser','newuser@exanpli.com','20'))
 cursor.execute('INSERT INTO Users(username,email,age) VALUES(?,?,?)',('ODIN','ODIN@exanpli.com','300'))
-# Выбираем всех пользователей
-#cursor.execute('SELECT * FROM Users')
-users = cursor.fetchall()
-#cursor.execute('SELECT username, age FROM Users WHERE age > ?', (25,))
-#results = cursor.fetchall()
-# Получаем средний возраст пользователей для возраста
-cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age')
-results = cursor.fetchall()
-cursor.execute('SELECT age, AVG(age) FROM Users GROUP BY age HAVING AVG(age) > ?', (30,))
-cursor.execute('SELECT COUNT(*) FROM Users')
-total_users = cursor.fetchone()[0]
-cursor.execute('SELECT SUM(age) FROM Users')
-total_age = cursor.fetchone()[0]
-# Выбираем всех пользователей
-cursor.execute('SELECT * FROM Users')
-users = cursor.fetchall()
+try:
+    # Начинаем транзакцию
+    cursor.execute('BEGIN')
 
-# Преобразуем результаты в список словарей
-users_list = []
-for user in users:
-    user_dict = {
-    'id': user[0],
-    'username': user[1],
-    'email': user[2],
-    'age': user[3]
-    }
-    users_list.append(user_dict)
+    # Выполняем операции
+    cursor.execute('INSERT INTO Users (username, email) VALUES (? , ?)', ('user1', 'user1@example.com'))
+    cursor.execute('INSERT INTO Users (username, email) VALUES (? , ?)', ('user2', 'user2@example.com'))
 
-# Выводим результаты
-for user in users_list:
-    print(user)
-print('Общая сумма возрастов пользователей: ', total_age)
+    # Подтверждаем изменения
+    cursor.execute('COMMIT')
 
-print('Общее количество пользователей:', total_users)
-cursor.execute('SELECT MAX(age) FROM Users')
-max_age = cursor.fetchone()[0]
+except:
+    # Отменяем транзакцию в случае ошибки
+    cursor.execute('ROLLBACK')
 
-print('Максимальный возраст среди пользователей:', max_age)
-
-# Выбираем и сортируем пользователей по возрасту по убыванию
-cursor.execute('SELECT AVG(age) FROM Users')
-average_age = cursor.fetchone()[0]
-cursor.execute('SELECT MIN(age) FROM Users')
-min_age = cursor.fetchone()[0]
-
-print('Минимальный возраст среди пользователей: ', min_age)
-print('Средний возраст пользователей: ', average_age)
-cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
-results = cursor.fetchall()
-# Выбираем и сортируем пользователей по возрасту по убыванию
-cursor.execute('SELECT username, age FROM Users ORDER BY age DESC')
-results = cursor.fetchall()
-# Выбираем и сортируем пользователей
-
+# Закрываем соединение
+connection.close()
