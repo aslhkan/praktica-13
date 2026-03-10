@@ -17,69 +17,55 @@ import sys
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
-        MainWindow.setStyleSheet("background-color: #FFF0F5;")
+        MainWindow.resize(1200, 700)
+        
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
+        
+        # Таблица
         self.tableWidget = QtWidgets.QTableWidget(self.centralwidget)
-        self.tableWidget.setGeometry(QtCore.QRect(190, 60, 571, 431))
+        self.tableWidget.setGeometry(QtCore.QRect(20, 20, 1160, 580))
         font = QtGui.QFont()
-        font.setPointSize(11)
+        font.setPointSize(10)
         self.tableWidget.setFont(font)
-        self.tableWidget.setStyleSheet("border-radius: 15px; background-color: #FFB6C1; border-color: rgb(255, 182, 193); border-width: medium;")
         self.tableWidget.setObjectName("tableWidget")
         self.tableWidget.setColumnCount(0)
         self.tableWidget.setRowCount(0)
+        
+        # Простые кнопки внизу
         self.pushButton = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton.setGeometry(QtCore.QRect(10, 60, 161, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.pushButton.setFont(font)
-        self.pushButton.setStyleSheet("border-radius: 15px; background-color: #FFC0CB;")
+        self.pushButton.setGeometry(QtCore.QRect(50, 620, 120, 30))
         self.pushButton.setObjectName("pushButton")
+        
         self.pushButton_2 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_2.setGeometry(QtCore.QRect(10, 110, 161, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.pushButton_2.setFont(font)
-        self.pushButton_2.setStyleSheet("border-radius: 15px; background-color: #FFC0CB;")
+        self.pushButton_2.setGeometry(QtCore.QRect(180, 620, 120, 30))
         self.pushButton_2.setObjectName("pushButton_2")
+        
         self.pushButton_3 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_3.setGeometry(QtCore.QRect(10, 160, 161, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.pushButton_3.setFont(font)
-        self.pushButton_3.setStyleSheet("border-radius: 15px; background-color: #FFC0CB;")
+        self.pushButton_3.setGeometry(QtCore.QRect(310, 620, 120, 30))
         self.pushButton_3.setObjectName("pushButton_3")
+        
         self.pushButton_4 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_4.setGeometry(QtCore.QRect(10, 210, 161, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.pushButton_4.setFont(font)
-        self.pushButton_4.setStyleSheet("border-radius: 15px; background-color: #FFC0CB;")
+        self.pushButton_4.setGeometry(QtCore.QRect(440, 620, 120, 30))
         self.pushButton_4.setObjectName("pushButton_4")
+        
+        # Кнопка выхода в правом верхнем углу
         self.pushButton_5 = QtWidgets.QPushButton(self.centralwidget)
-        self.pushButton_5.setGeometry(QtCore.QRect(10, 460, 161, 41))
-        font = QtGui.QFont()
-        font.setPointSize(11)
-        self.pushButton_5.setFont(font)
-        self.pushButton_5.setStyleSheet("border-radius: 15px; background-color: #FFE4E1;")
+        self.pushButton_5.setGeometry(QtCore.QRect(1080, 620, 100, 30))
         self.pushButton_5.setObjectName("pushButton_5")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(300, 10, 221, 21))
-        font = QtGui.QFont()
-        font.setPointSize(12)
-        self.label.setFont(font)
-        self.label.setObjectName("label")
+        
         MainWindow.setCentralWidget(self.centralwidget)
+        
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 26))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 1200, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
+        
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
         self.statusbar.setObjectName("statusbar")
         MainWindow.setStatusBar(self.statusbar)
 
+        # Подключение сигналов
         self.pushButton.clicked.connect(self.add_row)
         self.pushButton_2.clicked.connect(self.edit_row)
         self.pushButton_3.clicked.connect(self.delete_row)
@@ -93,13 +79,12 @@ class Ui_MainWindow(object):
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
-        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.pushButton.setText(_translate("MainWindow", "Добавить запись"))
-        self.pushButton_2.setText(_translate("MainWindow", "Изменить запись"))
-        self.pushButton_3.setText(_translate("MainWindow", "Удалить запись"))
+        MainWindow.setWindowTitle(_translate("MainWindow", "БД"))
+        self.pushButton.setText(_translate("MainWindow", "Добавить"))
+        self.pushButton_2.setText(_translate("MainWindow", "Изменить"))
+        self.pushButton_3.setText(_translate("MainWindow", "Удалить"))
         self.pushButton_4.setText(_translate("MainWindow", "Обновить"))
         self.pushButton_5.setText(_translate("MainWindow", "Выход"))
-        self.label.setText(_translate("MainWindow", "Работа с базой данных"))
 
     def add_row(self):
         connection = sqlite3.connect('my_db.db')
@@ -108,23 +93,31 @@ class Ui_MainWindow(object):
         columns_info = cursor.fetchall()
         
         column_names = ', '.join([col[1] for col in columns_info])
-        print(column_names)
         
-        text, ok = QInputDialog.getText(None, "Добавить запись", f"Столбцы таблицы:\n{column_names}\n\nВведите значения через запятую:")
+        text, ok = QInputDialog.getText(None, "Добавить запись", 
+                                       f"Столбцы: {column_names}\nВведите значения через запятую:")
         if ok and text:
             values = [v.strip() for v in text.split(',')]
         
             placeholders = ', '.join(['?' for _ in values])
             query = f"INSERT INTO Users VALUES ({placeholders})"
             
-            cursor.execute(query, values)
-            connection.commit()
+            try:
+                cursor.execute(query, values)
+                connection.commit()
+            except Exception as e:
+                QMessageBox.warning(None, "Ошибка", str(e))
+            
             cursor.close()
             connection.close()
             self.loaddb()
 
     def edit_row(self):
         selection = self.tableWidget.currentRow()
+        if selection < 0:
+            QMessageBox.warning(None, "Ошибка", "Выберите запись!")
+            return
+            
         connection = sqlite3.connect('my_db.db')
         cursor = connection.cursor()
         
@@ -136,20 +129,16 @@ class Ui_MainWindow(object):
             item = self.tableWidget.item(selection, col)
             current_values.append(item.text() if item else "")
 
-        print(current_values)
-
         cursor.execute('PRAGMA table_info(Users)')
         columns_info = cursor.fetchall()
         column_names = [col[1] for col in columns_info]
-
-        print(column_names)
         
         text, ok = QInputDialog.getText(
             None,
             "Изменить запись",
-            f"Столбцы таблицы:\n{', '.join(column_names)}\n"
-            f"Текущие значения:\n{', '.join(current_values)}\n\n"
-            f"Введите новые значения через запятую:",
+            f"Столбцы: {', '.join(column_names)}\n"
+            f"Текущие: {', '.join(current_values)}\n"
+            f"Новые значения через запятую:",
             text=', '.join(current_values)
         )
 
@@ -159,22 +148,39 @@ class Ui_MainWindow(object):
             set_clause = ', '.join([f"{col} = ?" for col in column_names[1:]])
             query = f"UPDATE Users SET {set_clause} WHERE {column_names[0]} = ?"
             
-            cursor.execute(query, new_values[1:] + [record_id])
-            connection.commit()
+            try:
+                cursor.execute(query, new_values[1:] + [record_id])
+                connection.commit()
+            except Exception as e:
+                QMessageBox.warning(None, "Ошибка", str(e))
             
             connection.close()
             self.loaddb()
 
     def delete_row(self):
         selection = self.tableWidget.currentRow()
-        connection = sqlite3.connect('my_db.db')
-        cursor = connection.cursor()
-        id_item = self.tableWidget.item(selection, 0)
-        record_id = id_item.text()
-        cursor.execute("DELETE FROM Users WHERE id = ?", (record_id,))
-        connection.commit()
-        connection.close()
-        self.loaddb()
+        if selection < 0:
+            QMessageBox.warning(None, "Ошибка", "Выберите запись!")
+            return
+            
+        reply = QMessageBox.question(None, "Подтверждение", 
+                                    "Удалить запись?",
+                                    QMessageBox.Yes | QMessageBox.No)
+        
+        if reply == QMessageBox.Yes:
+            connection = sqlite3.connect('my_db.db')
+            cursor = connection.cursor()
+            id_item = self.tableWidget.item(selection, 0)
+            record_id = id_item.text()
+            
+            try:
+                cursor.execute("DELETE FROM Users WHERE id = ?", (record_id,))
+                connection.commit()
+            except Exception as e:
+                QMessageBox.warning(None, "Ошибка", str(e))
+            
+            connection.close()
+            self.loaddb()
 
     def update_table(self):
         self.loaddb()
@@ -183,24 +189,35 @@ class Ui_MainWindow(object):
         connection = sqlite3.connect('my_db.db')
         cursor = connection.cursor()
 
-        cursor.execute('SELECT * FROM Users')
-        data = cursor.fetchall()
+        try:
+            cursor.execute('SELECT * FROM Users')
+            data = cursor.fetchall()
 
-        cursor.execute('PRAGMA table_info(Users)')
-        columns = [col[1] for col in cursor.fetchall()]
+            cursor.execute('PRAGMA table_info(Users)')
+            columns = [col[1] for col in cursor.fetchall()]
 
-        self.tableWidget.setColumnCount(len(columns))
-        self.tableWidget.setHorizontalHeaderLabels(columns)
-        self.tableWidget.setRowCount(len(data))
+            self.tableWidget.setColumnCount(len(columns))
+            self.tableWidget.setHorizontalHeaderLabels(columns)
+            self.tableWidget.setRowCount(len(data))
 
-        for row_idx, row in enumerate(data):
-            for col_idx, value in enumerate(row):
-                self.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
-
-        connection.close()
+            for row_idx, row in enumerate(data):
+                for col_idx, value in enumerate(row):
+                    self.tableWidget.setItem(row_idx, col_idx, QTableWidgetItem(str(value)))
+            
+            self.tableWidget.resizeColumnsToContents()
+            
+        except Exception as e:
+            QMessageBox.warning(None, "Ошибка", str(e))
+        finally:
+            connection.close()
 
     def close(self, event):
-        event.accept()
+        reply = QMessageBox.question(None, "Выход", "Выйти?",
+                                    QMessageBox.Yes | QMessageBox.No)
+        if reply == QMessageBox.Yes:
+            event.accept()
+        else:
+            event.ignore()
 
 if __name__ == "__main__":
     import sys
